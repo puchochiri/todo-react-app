@@ -10,8 +10,23 @@ import {
 import DeleteOutlined from "@mui/icons-material/DeleteOutlined";
 
 
+
+
+
 const Todo = (props) => {
     const [item, setItem] = useState(props.item);
+
+    const checkboxEventHandler = (e) => {
+        console.log("checkboxEventHandler실행");
+        item.done = e.target.checked;
+        editItem();
+    }
+
+    const editItem = props.editItem;
+    const editEventHandler = (e) => {
+        item.title = e.target.value;
+        editItem();  
+      };
 
     //turnOnReadOnly 작성
     const turnOnReadOnly = (e) => {
@@ -38,7 +53,7 @@ const Todo = (props) => {
 
     return (
         <ListItem>
-            <Checkbox checked={item.done} />
+            <Checkbox checked={item.done} onChange={checkboxEventHandler} />
             <ListItemText>
                 <InputBase
                     inputProps={{ 
@@ -46,6 +61,7 @@ const Todo = (props) => {
                         readOnly: readOnly}}
                     onClick={turnOffReadOnly}
                     onKeyDown={turnOnReadOnly}
+                    onChange={editEventHandler}
                     type="text"
                     id={item.id}
                     name={item.id}

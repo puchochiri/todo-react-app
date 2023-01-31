@@ -19,14 +19,40 @@ function App() {
   },
   */
 ]);
+//backend 연결
+const requestOptions = {
+  method: "GET",
+  headers: { "Content-Type": "application/json" },
+};
+
+fetch("http://localhost:8080/todo", requestOptions)
+  .then((response) => response.json())
+  .then(
+    (response) => {
+      setItems(reasponse.data);
+    },
+    (error) => {
+
+    }
+  );
+
+const editItem = () => {
+  
+  console.log("editItem실행");
+
+
+  setItems([...items]);
+
+};
 
 const addItem = (item) => {
   item.id = "ID-" + items.length; // key를 위한 id
   item.done = false;  // done 초기화
   // 업데이트는 반드시 setItems로 하고 새 배열을 만들어야 한다.
   setItems([...items, item]);
+  console.log("addItem");
   console.log("items : ", items);
-};
+}
 
 const deleteItem = (item) => {
   //삭제할 아이템을 찾는다.
@@ -34,6 +60,8 @@ const deleteItem = (item) => {
   //삭제할 아이템을 제외한 아이템을 다시 배열에 저장한다.
   setItems([...newItems]);
 }
+
+
 
 
 let todoItems =
@@ -44,6 +72,7 @@ let todoItems =
           <Todo 
           item={item} 
           key={item.id} 
+          editItem={editItem}
           deleteItem={deleteItem}
           />
         ))}
