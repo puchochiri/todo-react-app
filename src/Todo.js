@@ -17,21 +17,20 @@ const Todo = (props) => {
     const [item, setItem] = useState(props.item);
 
     const checkboxEventHandler = (e) => {
-        console.log("checkboxEventHandler실행");
         item.done = e.target.checked;
-        editItem();
+        editItem(item);
     }
 
     const editItem = props.editItem;
     const editEventHandler = (e) => {
-        item.title = e.target.value;
-        editItem();  
-      };
+        setItem({...item, title: e.target.value});
+    };
 
     //turnOnReadOnly 작성
     const turnOnReadOnly = (e) => {
-        if (e.key === 'Enter'){
+        if (e.key === 'Enter' && readOnly === false){
             setReadOnly(true);
+            editItem(item);
         }
     }
     // readOnly 상태 변수 추가 
@@ -41,6 +40,8 @@ const Todo = (props) => {
     const turnOffReadOnly = () => {
         setReadOnly(false);
     }
+
+
   
 
 
